@@ -1,0 +1,62 @@
+{
+  "name": "@tooinfinity/lingua-react",
+  "version": "1.0.0",
+  "description": "React bindings for Laravel Lingua - translations made easy with Inertia.js",
+  "type": "module",
+  "main": "./dist/lingua-react.cjs",
+  "module": "./dist/lingua-react.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/lingua-react.js"
+      },
+      "require": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/lingua-react.cjs"
+      }
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "vite build && tsc --emitDeclarationOnly",
+    "dev": "vite build --watch",
+    "typecheck": "tsc --noEmit",
+    "prepublishOnly": "npm run build"
+  },
+  "keywords": [
+    "laravel",
+    "lingua",
+    "react",
+    "inertia",
+    "i18n",
+    "translations",
+    "localization"
+  ],
+  "author": "TooInfinity",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tooinfinity/lingua-react.git"
+  },
+  "bugs": {
+    "url": "https://github.com/tooinfinity/lingua-react/issues"
+  },
+  "homepage": "https://github.com/tooinfinity/lingua-react#readme",
+  "peerDependencies": {
+    "@inertiajs/react": "^1.0.0 || ^2.0.0",
+    "react": "^18.0.0 || ^19.0.0"
+  },
+  "devDependencies": {
+    "@inertiajs/react": "^2.0.0",
+    "@types/node": "^25.0.8",
+    "@types/react": "^18.2.0",
+    "react": "^18.2.0",
+    "typescript": "^5.3.0",
+    "vite": "^6.0.0",
+    "vite-plugin-dts": "^4.0.0"
+  }
+}
