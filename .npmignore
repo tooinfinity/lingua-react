@@ -1,6 +1,24 @@
+# Source files
+src/
+
+# Tests
 __tests__/
 coverage/
-.github/
+
+# Config files
 *.config.ts
 tsconfig*.json
+
+# Git and GitHub
+.git/
+.github/
 .gitignore
+
+# IDE
+.vscode/
+.idea/
+
+# Misc
+*.log
+*.tgz
+.DS_Store
