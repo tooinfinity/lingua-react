@@ -7,6 +7,8 @@
 [![React](https://img.shields.io/badge/React-18%20%7C%2019-61DAFB.svg)](https://react.dev/)
 [![License](https://img.shields.io/npm/l/@tooinfinity/lingua-react)](LICENSE.md)
 
+> ⚠️ **Under Development** - This package is currently under active development and is not ready for production use. APIs may change without notice.
+
 React bindings for [Laravel Lingua](https://github.com/tooinfinity/lingua) - seamless translations with Inertia.js.
 
 ## Features
