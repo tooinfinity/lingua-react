@@ -1,2 +1,3 @@
 export { useTranslations } from './useTranslations';
-export type { LinguaProps, TranslateFunction } from './types';
+export { LocaleSwitcher } from './components/LocaleSwitcher';
+export type { LinguaProps, TranslateFunction, LocaleSwitcherProps } from './types';
