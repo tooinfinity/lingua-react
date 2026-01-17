@@ -10,11 +10,13 @@ export default defineConfig({
       formats: ['es', 'cjs'],
     },
     rollupOptions: {
-      external: ['react', '@inertiajs/react'],
+      external: ['react', 'react/jsx-runtime', '@inertiajs/react', 'lucide-react'],
       output: {
         globals: {
           react: 'React',
+          'react/jsx-runtime': 'ReactJSXRuntime',
           '@inertiajs/react': 'InertiaReact',
+          'lucide-react': 'LucideReact',
         },
       },
     },
