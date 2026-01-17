@@ -1,6 +1,6 @@
 {
   "name": "@tooinfinity/lingua-react",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "React bindings for Laravel Lingua - translations made easy with Inertia.js",
   "type": "module",
   "main": "./dist/lingua-react.cjs",
