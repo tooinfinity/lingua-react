@@ -2,6 +2,8 @@ export interface LinguaProps {
   locale: string;
   locales: string[];
   translations: Record<string, any>;
+  direction: 'ltr' | 'rtl';
+  isRtl: boolean;
 }
 
 export type TranslateFunction = (key: string, replacements?: Record<string, string | number>) => string;
