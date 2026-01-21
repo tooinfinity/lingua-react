@@ -85,7 +85,7 @@ function getLocaleFlag(localeCode: string): string {
  * ```
  */
 export function LocaleSwitcher({
-  endpoint = '/locale',
+  endpoint = '/lingua/locale',
   className = '',
   showFlag = false,
   localeNames,

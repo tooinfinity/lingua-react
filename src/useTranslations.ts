@@ -1,37 +1,88 @@
 import { usePage } from '@inertiajs/react';
+import { useCallback, useMemo } from 'react';
+import type { LinguaProps, TranslateFunction } from './types';
 
-interface LinguaData {
+/**
+ * Hook return type for useTranslations
+ */
+export interface UseTranslationsReturn {
+  /** Translation function - uses Laravel's __ convention */
+  __: TranslateFunction;
+  /** Current locale */
   locale: string;
+  /** List of supported locales */
   locales: string[];
-  translations: Record<string, any>;
+  /** Text direction ('ltr' or 'rtl') */
   direction: 'ltr' | 'rtl';
+  /** Whether current locale is RTL */
   isRtl: boolean;
+  /** Raw translations object */
+  translations: Record<string, Record<string, string | object>>;
 }
 
-export function useTranslations() {
-  const { props } = usePage<{ lingua?: LinguaData;[key: string]: unknown }>();
+/**
+ * React hook for accessing Laravel Lingua translations in Inertia.js applications.
+ * 
+ * @example
+ * ```tsx
+ * function MyComponent() {
+ *   const { __, locale, locales, direction, isRtl } = useTranslations();
+ *   
+ *   return (
+ *     <div dir={direction}>
+ *       <h1>{__('messages.welcome')}</h1>
+ *       <p>{__('messages.greeting', { name: 'John' })}</p>
+ *     </div>
+ *   );
+ * }
+ * ```
+ */
+export function useTranslations(): UseTranslationsReturn {
+  const { props } = usePage<{ lingua?: LinguaProps; [key: string]: unknown }>();
   const lingua = props.lingua;
 
-  const __ = (key: string, replacements?: Record<string, string | number>): string => {
-    const keys = key.split('.');
-    let value: any = lingua?.translations;
+  // Memoize translations to prevent unnecessary re-renders
+  const translations = useMemo(
+    () => lingua?.translations ?? {},
+    [lingua?.translations]
+  );
 
-    for (const k of keys) {
-      if (value === undefined || value === null) break;
-      value = value[k];
-    }
+  /**
+   * Translation function that supports:
+   * - Dot notation for nested keys (e.g., 'messages.welcome')
+   * - Laravel-style :placeholder replacements
+   * - Returns the key if translation is not found
+   */
+  const __ = useCallback(
+    (key: string, replacements?: Record<string, string | number>): string => {
+      const keys = key.split('.');
+      let value: unknown = translations;
 
-    if (typeof value !== 'string') return key;
+      for (const k of keys) {
+        if (value === undefined || value === null) break;
+        if (typeof value === 'object' && value !== null) {
+          value = (value as Record<string, unknown>)[k];
+        } else {
+          value = undefined;
+          break;
+        }
+      }
 
-    if (replacements) {
-      return Object.entries(replacements).reduce(
-        (str, [k, v]) => str.replace(new RegExp(`:${k}`, 'g'), String(v)),
-        value
-      );
-    }
+      // Return the key if translation not found or not a string
+      if (typeof value !== 'string') return key;
 
-    return value;
-  };
+      // Apply Laravel-style :placeholder replacements
+      if (replacements) {
+        return Object.entries(replacements).reduce(
+          (str, [k, v]) => str.replace(new RegExp(`:${k}`, 'g'), String(v)),
+          value
+        );
+      }
+
+      return value;
+    },
+    [translations]
+  );
 
   return {
     __,
@@ -39,5 +90,6 @@ export function useTranslations() {
     locales: lingua?.locales ?? ['en'],
     direction: lingua?.direction ?? 'ltr',
     isRtl: lingua?.isRtl ?? false,
+    translations,
   };
 }

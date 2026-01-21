@@ -5,6 +5,60 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.2.0] - 2026-01-21
+
+### Added
+
+- **LinguaProvider** - React context provider for global translation state management
+  - Wraps your app to enable automatic lazy loading features
+  - Automatically merges lazy-loaded translations with initial Inertia props
+  - Caches loaded groups to prevent duplicate requests
+  - Re-fetches translations when locale changes
+  - Exposes `useLinguaContext()` hook for direct context access
+
+- **useLazyTranslations Hook** - Automatic lazy loading with loading states
+  - `groups` option - Specify translation groups to auto-load on mount
+  - `eager` option - Control automatic vs manual loading (default: true)
+  - `onError` callback - Handle loading errors
+  - Returns `isLoading`, `isLoaded`, `error`, `reload()`, `loadGroup()`, `loadGroups()`
+  - Automatically reloads translations when locale changes
+
+- **Lazy Loading Functions** - Low-level functions for manual control
+  - `fetchTranslationGroup(group)` - Fetch single group via `GET /lingua/translations/{group}`
+  - `fetchTranslationGroups(groups)` - Fetch multiple groups via `POST /lingua/translations`
+  - `fetchAvailableGroups()` - Get available groups via `GET /lingua/groups`
+  - `createLazyLoader(options)` - Factory function with custom base URL and headers
+
+- **CSRF Token Support** - Automatic CSRF handling for POST requests
+  - `getCSRFToken()` - Extract CSRF token from meta tag or cookie
+  - Automatically includes `X-CSRF-TOKEN` header in POST requests
+  - Supports Laravel's `<meta name="csrf-token">` and `XSRF-TOKEN` cookie
+  - Configurable via `csrfToken`, `csrfSelector`, and `headers` options
+
+- **New TypeScript Types**
+  - `LinguaContextValue` - Context value interface
+  - `LinguaProviderProps` - Provider component props
+  - `UseLazyTranslationsOptions` - Hook options interface
+  - `UseLazyTranslationsReturn` - Hook return type
+  - `LinguaPageProps` - Wrapper type for Inertia page props
+  - `TranslationGroupResponse`, `TranslationsResponse`, `AvailableGroupsResponse` - API response types
+  - `LazyLoadOptions` - Options for lazy loading functions with CSRF fields
+
+- `translations` property in `useTranslations()` return value - Access raw translations object
+
+### Changed
+
+- **Breaking**: LocaleSwitcher default endpoint changed from `/locale` to `/lingua/locale` to match Laravel Lingua's route
+- Improved `useTranslations` hook with `useCallback` and `useMemo` for better performance
+- Enhanced TypeScript types with better documentation and stricter typing
+- Completely rewrote README with simpler, more explicit documentation
+- Added Table of Contents and API Reference section to README
+
+### Fixed
+
+- Improved type safety by removing `any` types in translations handling
+- SSR compatibility - Browser-only APIs are checked before access
+
 ## [1.1.2] - 2026-01-17
 
 ### Fixed
