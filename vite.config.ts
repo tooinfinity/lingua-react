@@ -10,24 +10,12 @@ export default defineConfig({
       formats: ['es', 'cjs'],
     },
     rollupOptions: {
-      external: [
-        'react',
-        'react/jsx-runtime',
-        '@inertiajs/react',
-        'lucide-react',
-        '@radix-ui/react-dropdown-menu',
-        'clsx',
-        'tailwind-merge',
-      ],
+      external: ['react', 'react/jsx-runtime', '@inertiajs/react'],
       output: {
         globals: {
           react: 'React',
           'react/jsx-runtime': 'ReactJSXRuntime',
           '@inertiajs/react': 'InertiaReact',
-          'lucide-react': 'LucideReact',
-          '@radix-ui/react-dropdown-menu': 'RadixDropdownMenu',
-          clsx: 'clsx',
-          'tailwind-merge': 'tailwindMerge',
         },
       },
     },
